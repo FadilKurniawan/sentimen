@@ -22,6 +22,7 @@ class SidebarPage extends StatelessWidget {
               children: [
                 StalkerPage(),
                 StalkerPage(),
+                // LoadingPage(),
                 PriorityPage(),
               ],
             ),

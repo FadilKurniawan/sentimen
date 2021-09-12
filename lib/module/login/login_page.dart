@@ -47,6 +47,7 @@ class LoginPage extends StatelessWidget {
                             labelText: 'email',
                             validator: Validator().email,
                             keyboardType: TextInputType.emailAddress,
+                            maxLines: 1,
                             onChanged: (value) =>
                                 controller.emailController.value = value,
                             onSaved: (value) =>
@@ -74,7 +75,12 @@ class LoginPage extends StatelessWidget {
                           ),
                           FormVerticalSpace(height: 48),
                           controller.isLoading
-                              ? CircularProgressIndicator()
+                              ? Center(
+                                  child: Image(
+                                    image: Resources.images.oceanSpark,
+                                    height: 50,
+                                  ),
+                                )
                               : Container(),
                           controller.isLoading
                               ? Container()
@@ -89,52 +95,52 @@ class LoginPage extends StatelessWidget {
                                     }
                                   }),
                           FormVerticalSpace(height: 20),
-                          controller.isLoading
-                              ? Container()
-                              : Container(
-                                  width: 400,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                          child: Divider(
-                                        color: Resources.color.textColor
-                                            .withOpacity(0.2),
-                                      )),
-                                      Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Text(
-                                          controller.sign.value == SignType.IN
-                                              ? "Don't have an Account?"
-                                              : 'Already have an Account?',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2
-                                              ?.copyWith(
-                                                  fontSize: 14,
-                                                  color: Resources
-                                                      .color.textColor),
-                                        ),
-                                      ),
-                                      Expanded(
-                                          child: Divider(
-                                        color: Resources.color.textColor
-                                            .withOpacity(0.2),
-                                      )),
-                                    ],
-                                  ),
-                                ),
-                          controller.isLoading || !kDebugMode
-                              ? Container()
-                              : PrimaryButton(
-                                  width: 400,
-                                  title: controller.sign.value == SignType.IN
-                                      ? 'Register Now'
-                                      : 'Login Now',
-                                  reverse: true,
-                                  onPressed: () async {
-                                    controller.changeType();
-                                  }),
+                          // controller.isLoading
+                          //     ? Container()
+                          //     : Container(
+                          //         width: 400,
+                          //         child: Row(
+                          //           mainAxisAlignment: MainAxisAlignment.start,
+                          //           children: [
+                          //             Expanded(
+                          //                 child: Divider(
+                          //               color: Resources.color.textColor
+                          //                   .withOpacity(0.2),
+                          //             )),
+                          //             Padding(
+                          //               padding: const EdgeInsets.all(16.0),
+                          //               child: Text(
+                          //                 controller.sign.value == SignType.IN
+                          //                     ? "Don't have an Account?"
+                          //                     : 'Already have an Account?',
+                          //                 style: Theme.of(context)
+                          //                     .textTheme
+                          //                     .bodyText2
+                          //                     ?.copyWith(
+                          //                         fontSize: 14,
+                          //                         color: Resources
+                          //                             .color.textColor),
+                          //               ),
+                          //             ),
+                          //             Expanded(
+                          //                 child: Divider(
+                          //               color: Resources.color.textColor
+                          //                   .withOpacity(0.2),
+                          //             )),
+                          //           ],
+                          //         ),
+                          //       ),
+                          // controller.isLoading || !kDebugMode
+                          //     ? Container()
+                          //     : PrimaryButton(
+                          //         width: 400,
+                          //         title: controller.sign.value == SignType.IN
+                          //             ? 'Register Now'
+                          //             : 'Login Now',
+                          //         reverse: true,
+                          //         onPressed: () async {
+                          //           controller.changeType();
+                          //         }),
                           SizedBox(height: 48.0),
                         ],
                       );

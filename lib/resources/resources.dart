@@ -16,7 +16,7 @@ class AppColors {
   Color colorTangerine = Color(0xFFfd8f0e);
   Color colorSalmon = Color(0xFFff6a6a);
 
-  Color scaffoldColor = Color(0xFFF2F2F2);
+  Color scaffoldColor = Colors.white; //Color(0xFFF2F2F2);
   Color textColor = Color(0xff666666);
   Color subTextColor = Color(0xff304151).withOpacity(0.6);
   Color subHintColor = Color(0xff304151).withOpacity(0.4);

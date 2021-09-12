@@ -48,8 +48,12 @@ class AuthController extends GetxController {
       checkUser();
     } else if (state?.appStatus == AppType.UNAUTHENTICATED) {
       clearData();
+      Get.toNamed(PageName.LOADER);
+      await Future.delayed(Duration(seconds: 2));
       Get.offAllNamed(PageName.LOGIN);
     } else if (state?.appStatus == AppType.AUTHENTICATED) {
+      Get.toNamed(PageName.LOADER);
+      await Future.delayed(Duration(seconds: 2));
       Get.offAllNamed(PageName.DASHBOARD);
     } else {
       Get.toNamed(PageName.LOADER);

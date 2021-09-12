@@ -7,7 +7,7 @@ class Validator {
     String pattern = r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!))
-      return 'txt_valid_email'.tr;
+      return 'Email is not valid';
     else
       return null;
   }
@@ -16,7 +16,7 @@ class Validator {
     String pattern = r'^.{6,}$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!))
-      return 'txt_valid_password'.tr;
+      return 'min 6 character';
     else
       return null;
   }
@@ -25,7 +25,7 @@ class Validator {
     String pattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!))
-      return 'txt_valid_name'.tr;
+      return 'txt_valid_name';
     else
       return null;
   }
@@ -34,7 +34,7 @@ class Validator {
     String pattern = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!))
-      return 'txt_valid_number'.tr;
+      return 'txt_valid_number';
     else
       return null;
   }
@@ -43,7 +43,7 @@ class Validator {
     String pattern = r'^\S+$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!))
-      return 'txt_valid_notEmpty'.tr;
+      return 'must be fill';
     else
       return null;
   }
