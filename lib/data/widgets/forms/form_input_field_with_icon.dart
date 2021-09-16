@@ -19,12 +19,14 @@ class FormInputFieldWithIcon extends StatelessWidget {
       this.onSuffixTap,
       required this.onChanged,
       required this.onSaved,
-      this.inputFormatters});
+      this.inputFormatters,
+      this.suffixTooltip});
 
   final TextEditingController? controller;
   final IconData? iconPrefix;
   final IconData? iconSuffix;
   final String labelText;
+  final String? suffixTooltip;
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
   final bool obscureText;
@@ -52,18 +54,18 @@ class FormInputFieldWithIcon extends StatelessWidget {
               ? IconButton(
                   hoverColor: Colors.transparent,
                   onPressed: onSuffixTap,
-                  tooltip: 'show/hide',
+                  tooltip: suffixTooltip ?? 'show/hide',
                   icon: Icon(
                     iconSuffix,
                     color: Colors.grey,
                   ),
                 )
               : null,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide:
-                BorderSide(color: Resources.color.borderColor, width: 1),
-          ),
+          // border: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(8),
+          //   borderSide:
+          //       BorderSide(color: Resources.color.borderColor, width: 1),
+          // ),
         ),
         expands: maxLines != null ? false : true,
         enabled: enabled,

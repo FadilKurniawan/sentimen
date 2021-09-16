@@ -1,141 +1,209 @@
 import 'dart:io';
 
 import 'package:excel/excel.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:sentimen/data/base/base_file_controller.dart';
 import 'package:sentimen/data/base/base_refresher_status.dart';
+import 'package:sentimen/environment.dart';
+import 'package:sentimen/model/db_model.dart';
+import 'package:sentimen/model/stalker_model.dart';
 import 'package:sentimen/module/auth/auth_controller.dart';
+import 'package:intl/intl.dart';
 
-class StalkerPageController extends GetxController {
+class StalkerPageController extends BaseFileController {
   AuthController auth = AuthController.find;
-
-  get isLoading => status.value == RefresherStatus.loading;
-  get isEmpty =>
-      (status.value == RefresherStatus.initial ||
-          status.value == RefresherStatus.empty) &&
-      !isLoading;
+  final GlobalKey<FormBuilderState> formKeys = GlobalKey<FormBuilderState>();
 
   var status = RefresherStatus.initial.obs;
-  var surfingState = true.obs;
-  var selectedInterval = 'Interval AA'.obs;
-  var selectedSentiment = 'Netral'.obs;
-  var selectedFollowup = 'Tweet OOT'.obs;
-  var selectedTime = '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}'.obs;
+  var surfingState = false.obs;
+  var formState = false.obs;
+
+  //menu
+  var selectedInterval = Intervals(
+      value: 'Interval AA', id: 0, time: [StringId(id: 0, value: '08.00')]).obs;
+
+  //forms
+  var sentiment = [StringId(value: 'Netral', id: 1)].obs;
+  var followup = [StringId(value: 'Tweet OOT', id: 0)].obs;
+  var times = [StringId(id: 0, value: '08.00')].obs;
+  var selectedSentiment = StringId(value: 'Netral', id: 1).obs;
+  var selectedFollowup = StringId(value: 'Tweet OOT', id: 0).obs;
+  var selectedTime = StringId(id: 0, value: '08.00').obs;
 
   //AA 08-17,AC 14-23, AZ 23-08
-  var interval = ['Interval AA', 'Interval AC', 'Interval AZ'];
-  var sentiment = ['Positif', 'Netral', 'Negatif'];
-  var followup = [
-    'Tweet OOT',
-    'Belum ada balasan agent ',
-    'sudah ada balasan agent',
-    'apresisasi'
-  ];
-
-  List<DataColumn> headers = [
-    DataColumn(label: Text('Interval')),
-    DataColumn(label: Text('Akun')),
-    DataColumn(label: Text('Link')),
-    DataColumn(label: Text('Follower')),
-    DataColumn(label: Text('Sentimen')),
-    DataColumn(label: Text('Follow')),
-    DataColumn(label: Text('Detail')),
+  var interval = [
+    Intervals(
+        value: 'Interval AA', id: 0, time: [StringId(id: 0, value: '08.00')])
   ].obs;
 
-  // socmed
-  // [11:32 PM, 9/7/2021] Adit: Facebook,intagram,media,twitter,tiktok,Web,Youtube
+  Rx<StalkerModel> formData = StalkerModel().obs;
+  Excel? currentExcel;
+  String? selectFilepath;
+  bool exist = false;
+  int? maxRows;
 
-  List<DataRow> dataRow = [DataRow(cells: [])].obs;
-
-  DataCell getCell(String? str) => DataCell(
-        SelectableText(
-          str ?? '',
-          style: TextStyle(fontSize: 12),
-          autofocus: true,
-        ),
-      );
-
-  @override
-  void onInit() {
-    dataRow.clear();
-    super.onInit();
+  createFileStalker() {
+    createFile(selectedInterval.value.value?.replaceAll('Interval ', ''));
   }
 
   @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void setSelectedInterval(String val) {
-    selectedInterval.value = val;
+  getModelFromLocal() {
+    super.getModelFromLocal();
+    selectedInterval.value = dbModel.value.intervals![0];
+    checkExistDir(Env.dirAppPath);
+    checkExistDir(Env.stalkerPath);
+    interval.value = dbModel.value.intervals ?? [];
+    sentiment.value = dbModel.value.sentiments ?? [];
+    followup.value = dbModel.value.followuper ?? [];
+    times.value = dbModel.value.intervals?[0].time ?? [];
+    selectedSentiment.value = StringId();
+    selectedFollowup.value = StringId();
+    selectedTime.value = StringId();
     update();
   }
 
+  Future<void> checkExistDir(String path) async {
+    bool exists = await Directory(path).exists();
+    if (!exists) {
+      Directory(path).create();
+    }
+  }
+
+  void setSelectedInterval(int? val) {
+    var old = selectedInterval.value;
+    var intr = interval.firstWhere((element) => element.id == val);
+    selectedInterval.value = intr;
+    times.value = intr.time ?? [];
+    selectedTime.value = getTimeOnInterval(old, intr);
+    update();
+  }
+
+  StringId getTimeOnInterval(Intervals older, Intervals newer) {
+    return newer.time!.firstWhere((newVal) =>
+        older.time!.any((element) => element.value == newVal.value));
+  }
+
   void setSelectedSentiment(String? val) {
-    selectedSentiment.value = val ?? '';
+    selectedSentiment.value =
+        sentiment.firstWhere((element) => element.value == val);
     update();
   }
 
   void setSelectedFollowUp(String? val) {
-    selectedFollowup.value = val ?? '';
+    selectedFollowup.value =
+        followup.firstWhere((element) => element.value == val);
     update();
   }
 
-  void surfingStateChange() {
+  void setSelectedTime(String? val) {
+    selectedTime.value = times.firstWhere((element) => element.value == val);
+    update();
+  }
+
+  Future<void> surfingStateChange() async {
     surfingState.value = !surfingState.value;
     update();
-  }
-
-  void setSelectedTime(String? string) {
-    selectedTime.value = string ?? '';
-    update();
-  }
-
-  Future<void> selectFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    status.value = RefresherStatus.loading;
-    update();
-    var isFill = false;
-    if (result != null) {
-      await Future.delayed(Duration(seconds: 2));
-      var bytes = File(result.files.single.path).readAsBytesSync();
-      var excel = Excel.decodeBytes(bytes);
-      isFill = await loadExcelFile(excel);
+    if (surfingState.value) {
+      await Future.delayed(Duration(milliseconds: 600));
     }
-
-    status.value = isFill ? RefresherStatus.success : RefresherStatus.failed;
+    formState.value = surfingState.value;
     update();
   }
 
-  Future<bool> loadExcelFile(Excel excel) async {
-    for (var table in excel.tables.keys) {
-      // print(table); //sheet Name
-      // print(excel.tables[table]?.maxCols);
-      // print(excel.tables[table]?.maxRows);
-      var rows = excel.tables[table]?.rows;
-      if (rows != null) {
-        dataRow.clear();
-        rows.asMap().forEach((index, row) {
-          List<DataCell> dataCell = [];
-          if (index > 0) {
-            for (var col in row) {
-              var val = col != null ? col.value.toString() : '';
-              dataCell.add(getCell(val));
-            }
-            dataRow.add(DataRow(cells: dataCell));
-          }
+  addNewRow(StalkerModel stalkerModel) async {
+    stalkerModel.time = selectedTime.value.value;
+    debugPrint(stalkerModel.toJson().toString());
+    addNewRowtoFile(stalkerModel.toList());
+  }
+
+  void printReportStalker() {
+    if (selectedInterval.value.time!.isNotEmpty) {
+      String printRow = '';
+      String print2Row = '';
+      selectedInterval.value.time?.asMap().forEach((key, value) {
+        final time = '${value.value!.substring(0, 2)}';
+        debugPrint('=> TIME: $time');
+        final getListTime = allData.where((element) {
+          return element[0].substring(0, 2) == time;
         });
-        return true;
-      } else {
-        return false;
-      }
+        final listTwit = getListTime.where((element) => getlink(element[2], 0));
+        final listYoutube =
+            getListTime.where((element) => getlink(element[2], 1));
+        final listInsta =
+            getListTime.where((element) => getlink(element[2], 2));
+        final listFacebook =
+            getListTime.where((element) => getlink(element[2], 3));
+        final listTiktok =
+            getListTime.where((element) => getlink(element[2], 4));
+        final listWebsite =
+            getListTime.where((element) => getlink(element[1], 5));
+        final listPos = getListTime.where((element) => getlink(element[4], 6));
+        final listNet = getListTime.where((element) => getlink(element[4], 7));
+        final listNeg = getListTime.where((element) => getlink(element[4], 8));
+
+        var socmed =
+            '${getSocmedString(0, listTwit)}${getSocmedString(1, listYoutube)}${getSocmedString(2, listInsta)}${getSocmedString(3, listFacebook)}${getSocmedString(4, listTiktok)}${getSocmedString(5, listWebsite)}';
+        socmed = socmed.isEmpty ? ' ' : socmed;
+        printRow = printRow +
+            '$time | ${getListTime.length} | $socmed| ${listPos.length} | ${listNeg.length} | ${listNet.length} \n';
+      });
+      List<List<String>> tempList = [];
+      tempList.addAll(allData.reversed);
+      tempList.asMap().forEach((key, value) {
+        print2Row = print2Row +
+            '${key + 1} | ${value[1]} | ${value[3]} | ${value[4]} | ${value[5]}\n';
+      });
+      printReport(
+          'Report Stalker',
+          '${DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(DateTime.now())}',
+          'Interval | Jumlah Case | Channel | Pos | Neg | Net \n\n$printRow\n\n No | Akun | Followers | Sentiment | Follow Up\n\n$print2Row');
+    } else {
+      error('Please Select Interval first');
     }
-    return false;
+  }
+
+  getSocmedString(int type, Iterable<List<String>> list) {
+    switch (type) {
+      case 0:
+        return list.isNotEmpty ? 'TW(${list.length}) ' : '';
+      case 1:
+        return list.isNotEmpty ? 'YT(${list.length}) ' : '';
+      case 2:
+        return list.isNotEmpty ? 'IG(${list.length}) ' : '';
+      case 3:
+        return list.isNotEmpty ? 'FB(${list.length}) ' : '';
+      case 4:
+        return list.isNotEmpty ? 'TT(${list.length}) ' : '';
+      case 5:
+        return list.isNotEmpty ? 'WB(${list.length}) ' : '';
+      default:
+    }
+  }
+
+  bool getlink(String str, int socmed) {
+    switch (socmed) {
+      case 0:
+        return str.toLowerCase().contains('https://twitter.com/');
+      case 1:
+        return str.toLowerCase().contains('https://www.youtube.com/');
+      case 2:
+        return str.toLowerCase().contains('https://www.instagram.com/');
+      case 3:
+        return str.toLowerCase().contains('https://www.facebook.com/');
+      case 4:
+        return str.toLowerCase().contains('https://www.tiktok.com/');
+      case 5:
+        return str.toLowerCase().contains('.website');
+      case 6:
+        return str.toLowerCase().contains('positif');
+      case 7:
+        return str.toLowerCase().contains('netral');
+      case 8:
+        return str.toLowerCase().contains('negatif');
+      default:
+        return false;
+    }
   }
 }

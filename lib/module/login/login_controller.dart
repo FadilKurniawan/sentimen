@@ -11,6 +11,7 @@ enum SignType { IN, UP }
 
 class LoginController extends GetxController {
   final AuthController authController = AuthController.find;
+  final formKey = GlobalKey<FormState>();
   var status = RefresherStatus.initial.obs;
   var sign = SignType.IN.obs;
 

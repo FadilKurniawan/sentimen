@@ -31,36 +31,38 @@ class AppTheme {
           (darkMode) ? darkNavigation() : lightNavigation(),
       textTheme: TextTheme(
         headline1: TextStyle(
-            fontSize: 14.sp,
+            fontSize: 20,
             fontWeight: FontWeight.w700,
             color: Resources.color.colorPrimary), // Navbar
         headline2: TextStyle(
-            fontSize: 20.sp,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
             color: Resources.color.colorPrimary), // Banner
         headline3: TextStyle(
-            fontSize: 14.sp,
+            fontSize: 14,
             fontWeight: FontWeight.w600,
             color: Resources.color.colorAccentDark), // Normal
         headline4: TextStyle(
-            fontSize: 12.sp,
+            fontSize: 14,
             fontWeight: FontWeight.normal,
             color: Resources.color.colorAccentDark),
         headline5: TextStyle(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w500,
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
             color: Resources.color.colorAccentDark), // SubNormal
         headline6: TextStyle(
-            fontSize: 14.sp,
+            fontSize: 12,
             color: Resources.color.colorPrimary,
             fontWeight: FontWeight.w500),
         bodyText1: TextStyle(
-            fontSize: 12.sp,
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
             color: Resources.color.colorAccentDark.withOpacity(0.8)),
         bodyText2: TextStyle(
-            fontSize: 12.sp,
+            fontSize: 12,
+            fontWeight: FontWeight.normal,
             color: Resources.color.colorAccentDark.withOpacity(0.8)),
-        button: TextStyle(fontSize: 14.sp, color: Colors.white),
+        button: TextStyle(fontSize: 14, color: Colors.white),
       ),
       inputDecorationTheme: inputDecoration(darkMode),
     );
@@ -76,7 +78,7 @@ class AppTheme {
       textTheme: TextTheme(
         headline6: TextStyle(
           color: Resources.color.colorAccentDark,
-          fontSize: 16.sp,
+          fontSize: 16,
         ),
       ),
     );
@@ -101,7 +103,7 @@ class AppTheme {
       textTheme: TextTheme(
         headline6: TextStyle(
           color: Colors.white,
-          fontSize: 16.sp,
+          fontSize: 16,
         ),
       ),
     );

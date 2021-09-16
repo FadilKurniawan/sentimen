@@ -8,6 +8,19 @@ class PriorityPage extends GetView<PriorityPageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [
+                0.0,
+                0.2
+              ],
+              colors: <Color>[
+                Resources.color.colorPrimary,
+                Resources.color.colorSecondary
+              ]),
+        ),
         child: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -16,9 +29,12 @@ class PriorityPage extends GetView<PriorityPageController> {
             Icon(
               Icons.construction_rounded,
               size: 120,
-              color: Resources.color.textColor,
+              color: Resources.color.white,
             ),
-            Text('Coming Soon..'),
+            Text(
+              'Coming Soon..',
+              style: TextStyle(color: Resources.color.white),
+            ),
           ],
         )),
       ),

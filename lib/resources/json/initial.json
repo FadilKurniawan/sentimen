@@ -1,0 +1,55 @@
+{
+    "columnHeadersStalker":[{"id":0,"value":"Interval"},{"id":1,"value":"Akun"},{"id":2,"value":"Link"},{"id":3,"value":"Follower"},{"id":4,"value":"Sentimen"},{"id":5,"value":"Follow"},{"id":6,"value":"Detail"},{"id":7,"value":"Capture"}],
+    "sentiments":[{"id":0,"value":"Positif"},{"id":1,"value":"Netral"},{"id":2,"value":"Negatif"}],
+    "followuper":[{"id":0,"value":"Tweet OOT"},{"id":1,"value":"Belum ada balasan agent "},{"id":2,"value":"sudah ada balasan agent"},{"id":3,"value":"apresisasi"}],
+    "intervals":[
+        {
+            "id":0,
+            "value":"Interval AA",
+            "time":[
+                {"id":0,"value":"08.00"},
+                {"id":1,"value":"09.00"},
+                {"id":2,"value":"10.00"},
+                {"id":3,"value":"11.00"},
+                {"id":4,"value":"12.00"},
+                {"id":5,"value":"13.00"},
+                {"id":6,"value":"14.00"},
+                {"id":7,"value":"15.00"},
+                {"id":8,"value":"16.00"},
+                {"id":9,"value":"17.00"}
+            ]
+        },
+        {
+            "id":1,
+            "value":"Interval AC",
+            "time":[
+                {"id":0,"value":"14.00"},
+                {"id":1,"value":"15.00"},
+                {"id":2,"value":"16.00"},
+                {"id":3,"value":"17.00"},
+                {"id":4,"value":"18.00"},
+                {"id":5,"value":"19.00"},
+                {"id":6,"value":"20.00"},
+                {"id":7,"value":"21.00"},
+                {"id":8,"value":"22.00"},
+                {"id":9,"value":"23.00"}
+            ]
+        },
+        {
+            "id":2,
+            "value":"Interval AZ",
+            "time":[
+                {"id":0,"value":"23.00"},
+                {"id":1,"value":"00.00"},
+                {"id":2,"value":"01.00"},
+                {"id":3,"value":"02.00"},
+                {"id":4,"value":"03.00"},
+                {"id":5,"value":"04.00"},
+                {"id":6,"value":"05.00"},
+                {"id":7,"value":"06.00"},
+                {"id":8,"value":"07.00"},
+                {"id":9,"value":"08.00"}
+            ]
+        }
+        ]
+}

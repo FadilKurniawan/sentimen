@@ -1,4 +1,5 @@
-import 'package:get/get.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class Validator {
   Validator();
@@ -45,6 +46,12 @@ class Validator {
     if (!regex.hasMatch(value!))
       return 'must be fill';
     else
-      return null;
+      return value;
+  }
+}
+
+class FormBuilderValidator {
+  static FormFieldValidator<T> required<T>(context) {
+    return FormBuilderValidators.required(context, errorText: 'must be fill');
   }
 }

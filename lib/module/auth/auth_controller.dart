@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:firedart/firedart.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/get.dart';
 import 'package:sentimen/data/storage/storage_constants.dart';
 import 'package:sentimen/data/storage/storage_manager.dart';
+import 'package:sentimen/model/db_model.dart';
 import 'package:sentimen/model/user.dart';
 import 'package:sentimen/routes/page_names.dart';
 
@@ -97,6 +101,11 @@ class AuthController extends GetxController {
   setup() async {
     if (!storage.has(StorageName.FIRST_INSTALL)) {
       debugPrint('FIRST INSTALL');
+      final String response =
+          await rootBundle.loadString('lib/resources/json/initial.json');
+      final data = DBModel.fromJson(await json.decode(response));
+      debugPrint('INIT DB ${data.toJson()}');
+      storage.write(StorageName.DB_Model, data.toJson());
       storage.write(StorageName.FIRST_INSTALL, true);
     } else {
       debugPrint('OPENED');

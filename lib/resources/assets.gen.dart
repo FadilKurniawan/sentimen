@@ -15,11 +15,14 @@ class $LibResourcesGen {
   const $LibResourcesGen();
 
   $LibResourcesImagesGen get images => const $LibResourcesImagesGen();
+  $LibResourcesJsonGen get json => const $LibResourcesJsonGen();
 }
 
 class $LibResourcesImagesGen {
   const $LibResourcesImagesGen();
 
+  AssetGenImage get googleDrive =>
+      const AssetGenImage('lib/resources/images/google_drive.png');
   AssetGenImage get imgEmpty =>
       const AssetGenImage('lib/resources/images/img_empty.png');
   AssetGenImage get imgError =>
@@ -30,6 +33,16 @@ class $LibResourcesImagesGen {
       const AssetGenImage('lib/resources/images/ocean_spark.gif');
   AssetGenImage get userPlaceholder =>
       const AssetGenImage('lib/resources/images/user_placeholder.png');
+  AssetGenImage get whiteLogo =>
+      const AssetGenImage('lib/resources/images/white_logo.png');
+  AssetGenImage get whiteSmallLogo =>
+      const AssetGenImage('lib/resources/images/white_small_logo.png');
+}
+
+class $LibResourcesJsonGen {
+  const $LibResourcesJsonGen();
+
+  String get initial => 'lib/resources/json/initial.json';
 }
 
 class Assets {
