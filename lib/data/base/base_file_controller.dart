@@ -125,10 +125,22 @@ class BaseFileController extends GetxController {
     }
   }
 
-  addNewRowtoFile(List<dynamic> model) async {
+  UpdateRowtoFile(List<dynamic> model, int row, {String? extra}) async {
+    if (currentExcel != null) {
+      currentExcel?['Sheet1'].insertRowIterables(model, row);
+      saveFile(extra: extra);
+      var isFill = await loadExcelFile(currentExcel!);
+      status.value = isFill ? RefresherStatus.success : RefresherStatus.failed;
+      update();
+    } else {
+      error('please select a file or create a new one');
+    }
+  }
+
+  addNewRowtoFile(List<dynamic> model, {String? extra}) async {
     if (currentExcel != null) {
       currentExcel?['Sheet1'].insertRowIterables(model, newRow);
-      saveFile();
+      saveFile(extra: extra);
       var isFill = await loadExcelFile(currentExcel!);
       status.value = isFill ? RefresherStatus.success : RefresherStatus.failed;
       update();
@@ -255,7 +267,7 @@ class BaseFileController extends GetxController {
     for (var index = 2; index <= i; index++) {
       j += getWidthCell(index);
     }
-    return j;
+    return j + 6;
   }
   // Lagging so bad
   // void setHoverIndex(int y) {

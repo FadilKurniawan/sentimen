@@ -1,7 +1,7 @@
 {
     "columnHeadersStalker":[{"id":0,"value":"Interval"},{"id":1,"value":"Akun"},{"id":2,"value":"Link"},{"id":3,"value":"Follower"},{"id":4,"value":"Sentimen"},{"id":5,"value":"Follow"},{"id":6,"value":"Detail"},{"id":7,"value":"Capture"}],
     "sentiments":[{"id":0,"value":"Positif"},{"id":1,"value":"Netral"},{"id":2,"value":"Negatif"}],
-    "followuper":[{"id":0,"value":"Tweet OOT"},{"id":1,"value":"Belum ada balasan agent "},{"id":2,"value":"sudah ada balasan agent"},{"id":3,"value":"apresisasi"}],
+    "followuper":[{"id":0,"value":"Tweet OOT"},{"id":1,"value":"Belum ada balasan agent "},{"id":2,"value":"sudah ada balasan agent"},{"id":3,"value":"apresiasi"}],
     "intervals":[
         {
             "id":0,

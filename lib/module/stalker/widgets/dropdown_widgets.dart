@@ -50,6 +50,7 @@ class DropdownWidgets extends StatelessWidget {
               color: Resources.color.colorPrimary,
               size: 30,
             ),
+            dropdownColor: Theme.of(context).scaffoldBackgroundColor,
             autofocus: true,
             iconSize: 24,
             elevation: 16,

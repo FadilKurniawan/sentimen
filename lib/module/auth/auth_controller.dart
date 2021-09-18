@@ -17,7 +17,6 @@ import 'auth_state.dart';
 class AuthController extends GetxController {
   static AuthController find = Get.find();
   Rxn<AuthState> authState = Rxn<AuthState>();
-
   Stream<AuthState?> get stream => authState.stream;
   AuthState? get state => authState.value;
 

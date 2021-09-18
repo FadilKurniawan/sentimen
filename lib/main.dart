@@ -2,9 +2,11 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sentimen/initializer.dart';
+import 'package:sentimen/module/auth/auth_controller.dart';
 import 'package:sentimen/routes/page_names.dart';
 import 'package:sentimen/routes/page_routes.dart';
 import 'package:sentimen/themes/app_theme.dart';
+import 'package:sentimen/themes/theme_services.dart';
 import 'package:sizer/sizer.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -30,7 +32,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: PageName.LOADER,
         getPages: PageRoutes.pages,
-        theme: AppTheme.buildThemeData(false),
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        themeMode: ThemeService().theme,
       );
     });
   }

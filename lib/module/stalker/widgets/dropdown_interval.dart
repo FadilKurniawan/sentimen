@@ -4,6 +4,7 @@ import 'package:sentimen/model/db_model.dart';
 import 'package:sentimen/module/stalker/stalker_page_controller.dart';
 import 'package:sentimen/resources/fonts.gen.dart';
 import 'package:sentimen/resources/resources.dart';
+import 'package:sentimen/themes/theme_services.dart';
 
 class DropdownInterval extends StatelessWidget {
   DropdownInterval(
@@ -18,14 +19,17 @@ class DropdownInterval extends StatelessWidget {
       height: 45,
       padding: EdgeInsets.symmetric(horizontal: 12),
       decoration: ShapeDecoration(
-        color: Resources.color.textColorWhite,
+        color: ThemeService().isDarkMode()
+            ? Resources.color.dropdownDarkButtonColor
+            : Resources.color.textColorWhite,
         shape: RoundedRectangleBorder(
           side: BorderSide(
             width: 1.0,
             style: BorderStyle.solid,
             color: Resources.color.borderColor,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(5.0), bottomLeft: Radius.circular(5.0)),
         ),
         // shadows: <BoxShadow>[
         //   BoxShadow(
@@ -36,7 +40,7 @@ class DropdownInterval extends StatelessWidget {
         //   )
         // ],
       ),
-      margin: EdgeInsets.symmetric(horizontal: 12.0),
+      // margin: EdgeInsets.symmetric(horizontal: 12.0),
       child: DropdownButton<int>(
         value: controller.selectedInterval.value.id,
         icon: Icon(
@@ -48,10 +52,13 @@ class DropdownInterval extends StatelessWidget {
         elevation: 16,
         isExpanded: true,
         style: TextStyle(
-          color: Resources.color.textColor,
+          color: ThemeService().isDarkMode()
+              ? Resources.color.textColorDark
+              : Resources.color.textColor,
           fontFamily: FontFamily.comfortaa,
           fontSize: 12,
         ),
+        dropdownColor: Theme.of(context).scaffoldBackgroundColor,
         underline: Container(
           height: 0,
         ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:sentimen/data/widgets/primary_button.dart';
 import 'package:sentimen/resources/resources.dart';
+import 'package:intl/intl.dart';
 
 class PrintReport extends StatelessWidget {
   final String? title;
@@ -17,6 +19,7 @@ class PrintReport extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final formKeyReport = GlobalKey<FormBuilderState>();
     final scrollController = ScrollController();
     return Container(
       child: Scaffold(
@@ -28,7 +31,7 @@ class PrintReport extends StatelessWidget {
                 child: Container(
                   width: 500,
                   decoration: ShapeDecoration(
-                    color: Resources.color.white,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -60,13 +63,30 @@ class PrintReport extends StatelessWidget {
                             )),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 24),
-                        alignment: Alignment.centerLeft,
-                        child: Text(date ?? '',
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Resources.color.textColor)),
-                      ),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+                          alignment: Alignment.centerLeft,
+                          child: FormBuilder(
+                              key: formKeyReport,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 25,
+                                    width: 200,
+                                    child: FormBuilderDateTimePicker(
+                                      name: 'date',
+                                      initialValue: DateTime.now(),
+                                      alwaysUse24HourFormat: true,
+                                      inputType: InputType.date,
+                                      style:
+                                          Theme.of(context).textTheme.bodyText2,
+                                      decoration: InputDecoration(),
+                                      format: DateFormat(
+                                          'EEEE, dd MMMM yyyy', 'id_ID'),
+                                    ),
+                                  ),
+                                ],
+                              ))),
                       SizedBox(height: 24),
                       Container(
                         height: 500,
@@ -88,9 +108,10 @@ class PrintReport extends StatelessWidget {
                               horizontal: 24, vertical: 24),
                           child: PrimaryButton(
                             onPressed: () {
+                              formKeyReport.currentState?.save();
                               Clipboard.setData(ClipboardData(
                                       text: ('$title \n') +
-                                          ('$date \n\n') +
+                                          ('${DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(formKeyReport.currentState?.value['date'])} \n\n') +
                                           (body ?? '')))
                                   .then((value) {
                                 Get.snackbar(

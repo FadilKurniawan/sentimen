@@ -4,6 +4,7 @@ import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:sentimen/data/base/base_file_controller.dart';
 import 'package:sentimen/module/stalker/widgets/my_table_cell.dart';
 import 'package:sentimen/resources/resources.dart';
+import 'package:sentimen/themes/theme_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyTableBody extends StatefulWidget {
@@ -59,10 +60,32 @@ class _MyTableBodyState extends State<MyTableBody> {
                     widget.listData.isNotEmpty ? widget.listData.length : 0,
                     (index) {
                   return widget.listData.isNotEmpty
-                      ? MyTableCell(
-                          color: Resources.color.colorPaleGrey.withOpacity(0.2),
-                          value: widget.listData[index][0],
-                          cellWidth: widget.baseController.getWidthCell(0),
+                      ? Container(
+                          decoration: BoxDecoration(
+                              color: ThemeService().isDarkMode()
+                                  ? Resources.color.scaffoldDarkColor
+                                  : Colors.white,
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                  color: ThemeService().isDarkMode()
+                                      ? Resources.color.shadowDarkColor
+                                      : Resources.color.shadowColor,
+                                  offset: Offset(0.0, 1.5),
+                                  blurRadius: 4,
+                                  spreadRadius: 0.0,
+                                )
+                              ]),
+                          margin: EdgeInsets.only(
+                              top: 12,
+                              left: 6,
+                              bottom:
+                                  index == widget.listData.length - 1 ? 70 : 0),
+                          child: MyTableCell(
+                            // color:
+                            //     Resources.color.colorPaleGrey.withOpacity(0.2),
+                            value: widget.listData[index][0],
+                            cellWidth: widget.baseController.getWidthCell(0),
+                          ),
                         )
                       : Container();
                 }),
@@ -80,37 +103,56 @@ class _MyTableBodyState extends State<MyTableBody> {
                 children: List.generate(
                     widget.listData.isNotEmpty ? widget.listData.length : 0,
                     (index) {
-                  return MyTableCell(
-                    color: Resources.color.colorPaleGrey.withOpacity(0.2),
-                    // value: widget.listData[index + 1][1],
-                    cellWidth: widget.baseController.getWidthCell(1),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 26,
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 8, right: 8),
-                          decoration: ShapeDecoration(
-                            color: Resources.color.colorPrimary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                  return Container(
+                    margin: EdgeInsets.only(
+                        top: 12,
+                        bottom: index == widget.listData.length - 1 ? 70 : 0),
+                    decoration: BoxDecoration(
+                        color: ThemeService().isDarkMode()
+                            ? Resources.color.scaffoldDarkColor
+                            : Colors.white,
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: ThemeService().isDarkMode()
+                                ? Resources.color.shadowDarkColor
+                                : Resources.color.shadowColor,
+                            offset: Offset(0.0, 1.5),
+                            blurRadius: 4,
+                            spreadRadius: 0.0,
+                          )
+                        ]),
+                    child: MyTableCell(
+                      // color: Resources.color.colorPaleGrey.withOpacity(0.2),
+                      // value: widget.listData[index + 1][1],
+                      cellWidth: widget.baseController.getWidthCell(1),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 26,
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.only(left: 8, right: 8),
+                            decoration: ShapeDecoration(
+                              color: Resources.color.colorPrimary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: Text(
+                              widget.listData[index][1],
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: Resources.color.textColorWhite
+                                    .withOpacity(0.8),
+                                fontWeight: FontWeight.normal,
+                              ),
+                              textAlign: TextAlign.left,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          child: Text(
-                            widget.listData[index][1],
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              color: Resources.color.textColorWhite
-                                  .withOpacity(0.8),
-                              fontWeight: FontWeight.normal,
-                            ),
-                            textAlign: TextAlign.left,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 }),
@@ -134,24 +176,44 @@ class _MyTableBodyState extends State<MyTableBody> {
                   children: List.generate(
                       widget.listData.isNotEmpty ? widget.listData.length : 0,
                       (y) {
-                    return InkWell(
-                      onTap: () {},
-                      hoverColor:
-                          Resources.color.colorPaleGrey.withOpacity(0.2),
-                      child: Container(
-                        child: Row(
-                          children: List.generate(
-                              (widget.listData.isNotEmpty
-                                  ? widget.listData[0].length - 2
-                                  : 0), (x) {
-                            return MyTableCell(
-                              value: widget.listData[(y)][(x + 2)],
-                              cellWidth:
-                                  widget.baseController.getWidthCell(x + 2),
-                              child: getWidgetChild(
-                                  widget.listData[(y)][(x + 2)], x + 2),
-                            );
-                          }),
+                    return Container(
+                      margin: EdgeInsets.only(
+                          top: 12,
+                          right: 6,
+                          bottom: y == widget.listData.length - 1 ? 70 : 0),
+                      decoration: BoxDecoration(
+                          color: ThemeService().isDarkMode()
+                              ? Resources.color.scaffoldDarkColor
+                              : Colors.white,
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: ThemeService().isDarkMode()
+                                  ? Resources.color.shadowDarkColor
+                                  : Resources.color.shadowColor,
+                              offset: Offset(0.0, 1.5),
+                              blurRadius: 4,
+                              spreadRadius: 0.0,
+                            )
+                          ]),
+                      child: InkWell(
+                        onTap: () {},
+                        // hoverColor:
+                        //     Resources.color.colorPaleGrey.withOpacity(0.2),
+                        child: Container(
+                          child: Row(
+                            children: List.generate(
+                                (widget.listData.isNotEmpty
+                                    ? widget.listData[0].length - 2
+                                    : 0), (x) {
+                              return MyTableCell(
+                                value: widget.listData[(y)][(x + 2)],
+                                cellWidth:
+                                    widget.baseController.getWidthCell(x + 2),
+                                child: getWidgetChild(
+                                    widget.listData[(y)][(x + 2)], x + 2),
+                              );
+                            }),
+                          ),
                         ),
                       ),
                     );
@@ -194,33 +256,39 @@ class _MyTableBodyState extends State<MyTableBody> {
           ),
         );
       case 7:
-        return str.isEmpty
-            ? Container()
-            : InkWell(
-                onTap: () async {
-                  if (await canLaunch(str)) {
-                    await launch(str);
-                  } else {
-                    widget.baseController.error('link not valid');
-                  }
-                },
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  alignment: Alignment.center,
-                  decoration: ShapeDecoration(
-                    color: Resources.color.colorSilver.withOpacity(0.5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                  ),
-                  padding: EdgeInsets.all(6),
-                  child: Image(
+        return InkWell(
+          onTap: () async {
+            if (str.isNotEmpty && await canLaunch(str)) {
+              await launch(str);
+            } else {
+              widget.baseController.error('link not valid');
+            }
+          },
+          child: Container(
+            height: 40,
+            width: 40,
+            alignment: Alignment.center,
+            decoration: ShapeDecoration(
+              color: ThemeService().isDarkMode()
+                  ? Resources.color.formDarkColor
+                  : Resources.color.colorSilver.withOpacity(0.5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+            ),
+            padding: EdgeInsets.all(6),
+            child: str.isEmpty
+                ? Icon(
+                    FontAwesomeIcons.questionCircle,
+                    color: Resources.color.colorSilver,
+                    size: 20,
+                  )
+                : Image(
                     image: Resources.images.googleDrive,
                     fit: BoxFit.fitHeight,
                   ),
-                ),
-              );
+          ),
+        );
       default:
         return null;
     }

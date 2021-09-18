@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sentimen/resources/resources.dart';
+import 'package:sentimen/themes/theme_services.dart';
 
 class FormInputFieldWithIcon extends StatelessWidget {
   FormInputFieldWithIcon(
@@ -46,9 +47,17 @@ class FormInputFieldWithIcon extends StatelessWidget {
       height: height,
       width: width,
       child: TextFormField(
+        style: Theme.of(context).textTheme.bodyText1,
         decoration: InputDecoration(
           filled: true,
-          prefixIcon: iconPrefix != null ? Icon(iconPrefix) : null,
+          prefixIcon: iconPrefix != null
+              ? Icon(
+                  iconPrefix,
+                  color: ThemeService().isDarkMode()
+                      ? Resources.color.dropdownDarkButtonColor
+                      : Resources.color.borderColor,
+                )
+              : null,
           hintText: labelText,
           suffixIcon: iconSuffix != null
               ? IconButton(

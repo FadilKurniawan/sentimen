@@ -1,13 +1,16 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:sentimen/data/widgets/windows/windows_button.dart';
+import 'package:sentimen/module/auth/auth_controller.dart';
 import 'package:sentimen/module/priority/priority_page.dart';
 import 'package:sentimen/module/stalker/stalker_page.dart';
 import 'package:sentimen/resources/resources.dart';
+import 'package:sentimen/themes/theme_services.dart';
 import 'sidebar_controller.dart';
 
 class SidebarPage extends StatelessWidget {
@@ -57,6 +60,7 @@ class SidebarPage extends StatelessWidget {
                             right: 12,
                           ),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SideBarItem(
                                   isSelectedMenu: controller.isStalkerPage,
@@ -74,6 +78,21 @@ class SidebarPage extends StatelessWidget {
                             ],
                           ),
                         )),
+                        AnimatedSwitcher(
+                          duration: Duration(milliseconds: 500),
+                          child: Container(
+                            height: 50,
+                            width: 40,
+                            child: DayNightSwitcherIcon(
+                              nightBackgroundColor:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                              isDarkModeEnabled: controller.darkTheme.value,
+                              onStateChanged: (bool isDarkModeEnabled) {
+                                controller.changeTheme();
+                              },
+                            ),
+                          ),
+                        ),
                         InkWell(
                           onTap: controller.auth.signOut,
                           child: Container(

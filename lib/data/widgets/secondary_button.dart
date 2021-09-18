@@ -8,13 +8,14 @@ class SecondaryButton extends StatelessWidget {
   final double width;
   final double? height;
   final void Function()? onPressed;
-  final double? borderRadius;
+  final double? radius;
   final bool enabled;
   final double marginHorizontal;
   final String? title;
   final bool reverse;
   final Color? color1;
   final Color? color2;
+  final BorderRadius? borderRadius;
 
   const SecondaryButton({
     Key? key,
@@ -24,12 +25,13 @@ class SecondaryButton extends StatelessWidget {
     this.width = double.infinity,
     this.height = 45,
     this.onPressed,
-    this.borderRadius,
+    this.radius,
     this.enabled = true,
     this.reverse = false,
     this.marginHorizontal = 0,
     this.color1,
     this.color2,
+    this.borderRadius,
   }) : super(key: key);
 
   @override
@@ -39,6 +41,7 @@ class SecondaryButton extends StatelessWidget {
       height: height,
       margin: EdgeInsets.symmetric(horizontal: marginHorizontal),
       decoration: BoxDecoration(
+        borderRadius: borderRadius,
         gradient: gradient ??
             LinearGradient(
               begin: Alignment.topCenter,
@@ -60,22 +63,22 @@ class SecondaryButton extends StatelessWidget {
                       Resources.color.colorPaleGrey
                     ],
             ),
-        boxShadow: [
-          enabled
-              ? BoxShadow(
-                  color: Colors.blueGrey.withOpacity(0.4),
-                  offset: Offset(0.0, 1.5),
-                  blurRadius: 4,
-                  spreadRadius: 0.0,
-                )
-              : BoxShadow(color: Colors.transparent),
-        ],
-        borderRadius: BorderRadius.circular(borderRadius ?? 5),
+        // boxShadow: [
+        //   enabled
+        //       ? BoxShadow(
+        //           color: Colors.blueGrey.withOpacity(0.4),
+        //           offset: Offset(0.0, 1.5),
+        //           blurRadius: 4,
+        //           spreadRadius: 0.0,
+        //         )
+        //       : BoxShadow(color: Colors.transparent),
+        // ],
+        // borderRadius: BorderRadius.circular(borderRadius ?? 5),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(borderRadius ?? 5),
+          borderRadius: borderRadius,
           onTap: enabled ? onPressed ?? () {} : null,
           child: Center(
               child: child ??

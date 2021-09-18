@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sentimen/resources/resources.dart';
+import 'package:sentimen/themes/theme_services.dart';
 
 class HalfCircleButton extends StatelessWidget {
   final Widget? child;
@@ -44,10 +45,14 @@ class HalfCircleButton extends StatelessWidget {
                   ? <Color>[
                       reverse
                           ? Resources.color.textColorWhite
-                          : Resources.color.colorPrimary.withOpacity(0.3),
+                          : ThemeService().isDarkMode()
+                              ? Resources.color.dropdownDarkButtonColor
+                              : Resources.color.colorPrimary.withOpacity(0.3),
                       reverse
                           ? Resources.color.textColorWhite
-                          : Resources.color.colorPrimary.withOpacity(0.3)
+                          : ThemeService().isDarkMode()
+                              ? Resources.color.dropdownDarkButtonColor
+                              : Resources.color.colorPrimary.withOpacity(0.3)
                     ]
                   : <Color>[
                       Resources.color.colorPaleGrey,

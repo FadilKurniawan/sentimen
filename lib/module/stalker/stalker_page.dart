@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:sentimen/data/widgets/half_circle_button.dart';
@@ -10,6 +11,7 @@ import 'package:sentimen/module/stalker/widgets/menu_stalker.dart';
 import 'package:sentimen/module/stalker/widgets/my_table_body.dart';
 import 'package:sentimen/module/stalker/widgets/my_table_head.dart';
 import 'package:sentimen/resources/resources.dart';
+import 'package:sentimen/themes/theme_services.dart';
 
 class StalkerPage extends StatefulWidget {
   @override
@@ -46,13 +48,13 @@ class _StalkerPageState extends State<StalkerPage> {
                       height: double.infinity,
                       // width: 1200,
                       // color: Colors.black45,
-                      margin: EdgeInsets.only(top: 40, bottom: 20, right: 24),
+                      margin: EdgeInsets.only(top: 40, bottom: 0, right: 24),
                       child: Column(
                         children: [
                           Container(
                               margin: EdgeInsets.only(
                                 left: 140,
-                                bottom: 20,
+                                // bottom: 20,
                               ),
                               child: MenuStalker(controller)),
                           //Data Table
@@ -127,8 +129,12 @@ class _StalkerPageState extends State<StalkerPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.surfing_rounded,
-                      color: Resources.color.white,
+                      controller.surfingState.value
+                          ? Icons.double_arrow_rounded
+                          : Icons.arrow_back_ios_new_rounded,
+                      color: ThemeService().isDarkMode()
+                          ? Resources.color.white.withOpacity(0.5)
+                          : Resources.color.white,
                     ),
                   ),
                 ),

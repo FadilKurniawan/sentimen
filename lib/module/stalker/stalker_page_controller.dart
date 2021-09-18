@@ -115,7 +115,15 @@ class StalkerPageController extends BaseFileController {
   addNewRow(StalkerModel stalkerModel) async {
     stalkerModel.time = selectedTime.value.value;
     debugPrint(stalkerModel.toJson().toString());
-    addNewRowtoFile(stalkerModel.toList());
+    addNewRowtoFile(stalkerModel.toList(),
+        extra: selectedInterval.value.value?.replaceAll('Interval ', ''));
+  }
+
+  updateRow(StalkerModel stalkerModel, int row) async {
+    stalkerModel.time = selectedTime.value.value;
+    debugPrint(stalkerModel.toJson().toString());
+    UpdateRowtoFile(stalkerModel.toList(), row)(stalkerModel.toList(),
+        extra: selectedInterval.value.value?.replaceAll('Interval ', ''));
   }
 
   void printReportStalker() {
